@@ -1,0 +1,51 @@
+                                        Single line description-
+
+Q.N.1-- (B)  - Node.js is for server side runtime environment.
+
+Q.N.2-- (C)  - Node.js is Asynchronous by default.
+   
+Q.N.3-- (D)  - Node.js support all of these platform.
+
+Q.N.4-- (B)  - Node.js terminal (REPL) is used for executing browser’s JavaScript expressions.
+
+Q.N.5-- (A)  - The default scope in Node.js application is global
+
+Q.N.6-- (B)  - Node.js application runs on Single thread.
+
+Q.N.7-- (A)  - Simple or complex functionality organized in a single or multiple JavaScript files which can be  
+               reused throughout your Node.js application is called module.
+
+Q.N.8-- (C)  - The Node.js modules can be exposed using module.exports.
+
+Q.N.9-- (A)  - Third-party packages can be install/update/delete using Node Package Manager.
+
+Q.N.10-- (D)  - http module is used to create a web server in Node.js              
+
+Q.N.11-- (A)  - Using require() function you can import module in Node.js
+
+Q.N.12-- (D)  - All these type of appilications can be built using Node.js
+
+Q.N.13-- (C)  - Node.js application can access both types of databases.
+
+
+
+
+
+
+                                       Output based Questions:
+
+Q.N.1-- undefined , 2
+
+Q.N.2-- 
+(a)-  2
+(b)-  1
+(c)-  "A1"
+(d)-  "1A"
+(e)-  "Aa"
+(f)-  NaN
+
+
+
+                                       
+
+
