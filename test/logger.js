@@ -61,6 +61,10 @@ app.get('/login',function(req,res){
 	res.sendFile(__dirname+'/login.html');
 })
 
+app.get('/forget',function(req,res){
+	res.sendFile(__dirname+'/forget.html');
+})
+
 app.use('/login1',express.static(__dirname+'/pic'));
 
 app.post('/signup1',upload.any(),function(req,res){
@@ -70,7 +74,6 @@ app.post('/signup1',upload.any(),function(req,res){
 	var uemail=req.body.email;
 	var upass=req.body.pass;
 	var file=req.files;
-	//var pic='http://127.0.0.1:8080/login1/'+file[0].originalname;
 	var imgpath=file[0].path;
 	var ootp=Math.floor(1000+Math.random()*10000);
 	var mailopts={
@@ -135,15 +138,12 @@ app.post('/login1',function(req,res){
 					    	if(doc.length==0)
 					    		res.send("Enter the correct otp");
 					    	else
-					    		res.contentType('image/jpeg');
-					    		res.send(doc[0].image.data);
-					    	
-					    	
+					    		res.send(doc);					    	
 					    })
 					})
 				}
 				else{
-				    res.send(doc[0].image.data);
+				    res.send(doc);
 				
 				    
 				    fs.appendFile('detail.txt',"\nLogin successfully",function(err){
@@ -172,6 +172,79 @@ app.post('/login1',function(req,res){
 
 		})
 	})
+
+	app.get('/reset',function(req,res){
+		res.sendFile(__dirname+'/reset.html');
+	})
+
+	app.post('/reset1',function(req,res){
+		var opass=req.body.opass;
+		var npass=req.body.npass;
+		model.findOne({"username":nemail},function(err,doc1){
+			if(err)
+				res.send(err);
+			else{
+				if(doc1.password==opass){
+					model.update({"username":nemail},{$set:{"password":npass}},function(err){
+						if(err)
+							res.send(err);
+						else
+							res.send("Password Reset successfully");
+					})
+				}
+				else
+					res.send("Enter the correct Password");
+			}
+		})
+	})
 })
 
-app.listen(8080)
+app.get('/forget1',function(req,res){
+	var email=req.query.email;
+	var ootp=Math.floor(1000+Math.random()*10000);
+	model.findOne({"username":email},function(err,doc1){
+		if(err)
+			res.send(err);
+		if(doc1==null)
+			res.send("Enter the correct email");
+		else{
+	        var mailopts={
+	            from: 'rehanrizvi355@gmail.com',
+	            to: 'mohd.rehan@affle.com',
+	            text: ''+ootp
+            };
+            transfar.sendMail(mailopts,function(err){
+            	if(err)
+            		res.send(err);
+            	else
+            		console.log("A mail has been sent to Your register email with an otp");
+            })
+            res.sendFile(__dirname+'/forget1.html');
+		}
+	})
+
+	app.get('/forget2',function(req,res){
+		var notp=req.query.otp;
+		if(ootp==notp)
+			res.sendFile(__dirname+'/forget2.html');
+		else
+			res.send("Enter the correct OTP");
+	})
+
+	app.post('/forget3',function(req,res){
+		var npass=req.body.npass;
+		var rpass=req.body.cpass;
+		if(npass==rpass){
+			model.update({"username":email},{$set:{"password":npass}},function(err){
+				if(err)
+					res.send(err);
+				else
+					res.send("Password successfully changed");
+			})
+		}
+		else
+			res.send("Both Password should be same");
+	})
+})
+
+app.listen(8080);
